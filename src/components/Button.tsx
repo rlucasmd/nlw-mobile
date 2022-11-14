@@ -25,6 +25,7 @@ function Button({ title, type = 'PRIMARY', ...rest }: ButtonProps) {
         fontSize="sm"
         fontFamily="heading"
         color={type === 'SECONDARY' ? 'white' : 'black'}
+        textTransform="uppercase"
       >
         {title}
       </Text>

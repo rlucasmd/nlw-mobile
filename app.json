@@ -11,7 +11,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
-    "schema": "copa-nlw",
+    "scheme": "copa-nlw",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
