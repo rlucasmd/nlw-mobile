@@ -2,6 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import * as AuthSession from 'expo-auth-session';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
+import { api } from '../services/api';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -32,8 +33,19 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
     redirectUri: AuthSession.makeRedirectUri({ useProxy: true }),
     scopes: ['email', 'profile']
   });
-  async function singInWithGoogle(accessToken: string) {
-    console.log('Token => ' + accessToken);
+  async function singInWithGoogle(access_token: string) {
+    try {
+      setIsUserLoading(true);
+      const response = await api.post('/users', { access_token });
+      api.defaults.headers.common['Authorization'] = `Beares ${response.data.token}`
+      const userInfoResponse = await api.get('/me');
+      setUser(userInfoResponse.data.user);
+    } catch (err) {
+      console.log('error -> ', err);
+      throw err;
+    } finally {
+      setIsUserLoading(false);
+    }
   }
   useEffect(() => {
     if (response?.type === 'success' && response.authentication?.accessToken)
