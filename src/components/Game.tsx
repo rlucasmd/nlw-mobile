@@ -25,7 +25,7 @@ interface Props {
   setFirstTeamPoints: (value: string) => void;
   setSecondTeamPoints: (value: string) => void;
 }
-function Game({ data }: Props) {
+function Game({ data, setFirstTeamPoints, setSecondTeamPoints, onGuessConfirm }: Props) {
   const { colors, sizes } = useTheme();
   return (
     <VStack
