@@ -22,10 +22,11 @@ function PoolHeader({ title, participants, owner, _count, code }: PoolHeaderProp
       borderBottomWidth={1}
       borderBottomColor="gray.600"
       justifyContent="space-between"
+      alignItems="center"
       mb={3}
       p={4}
     >
-      <VStack>
+      <VStack ml={-4}>
         <Heading color="white" fontSize="md" fontFamily="heading">
           {title}
         </Heading>

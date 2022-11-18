@@ -31,6 +31,7 @@ function FindPool() {
       })
 
       navigate('pools');
+      setIsLoading(false);
 
 
     } catch (error: any) {
@@ -50,9 +51,7 @@ function FindPool() {
           bgColor: 'red.500'
         });
       }
-
     }
-
   }
 
   return (

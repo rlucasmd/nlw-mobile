@@ -8,9 +8,10 @@ interface HeaderProps {
   title: string;
   showBackButton?: boolean;
   showShareButton?: boolean;
+  onShare?: () => void;
 }
 
-function Header({ title, showBackButton = false, showShareButton = false }: HeaderProps) {
+function Header({ title, showBackButton = false, showShareButton = false, onShare }: HeaderProps) {
   const EmptyBox = () => (<Box w={6} h={6} />);
   const navigation = useNavigation();
   return (
@@ -23,7 +24,7 @@ function Header({ title, showBackButton = false, showShareButton = false }: Head
         <Text color="white" fontSize="md" fontFamily="medium" textAlign="center">{title}</Text>
         {
           showShareButton ?
-            <ButtonIcon icon={Export} /> : <EmptyBox />
+            <ButtonIcon icon={Export} onPress={onShare} /> : <EmptyBox />
         }
       </HStack>
 

@@ -27,7 +27,6 @@ function Participants({ participants, count }: Props) {
             borderWidth={2}
             marginRight={-3}
             borderColor="gray.800"
-
           >
             {participant.user?.name?.at(0)?.toUpperCase()}
           </Avatar>

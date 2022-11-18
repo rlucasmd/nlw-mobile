@@ -1,5 +1,6 @@
-import { useToast, VStack } from "native-base";
+import { HStack, useToast, VStack } from "native-base";
 import { Header } from "../components/Header";
+import { Share } from "react-native";
 
 import { useRoute } from '@react-navigation/native';
 import { useEffect, useState } from "react";
@@ -7,6 +8,8 @@ import { Loading } from "../components/Loading";
 import { api } from "../services/api";
 import { PoolCardProps } from '../components/PoolCard';
 import { PoolHeader } from "../components/PoolHeader";
+import { EmptyMyPoolList } from "../components/EmptyMyPoolList";
+import { Option } from "../components/Option";
 
 interface RouteParams {
   id: string;
@@ -19,8 +22,13 @@ function Details() {
   const route = useRoute();
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(true);
+  const [optionSelected, setOptionSelected] = useState<'guesses' | 'ranking'>('guesses');
   const [data, setData] = useState<PoolCardProps>({} as PoolCardProps);
   const { id } = route.params as RouteParams;
+
+  async function handleCodeShare() {
+    await Share.share({ message: data.code });
+  }
 
   async function fetchPoolDetails() {
     setIsLoading(true);
@@ -45,26 +53,44 @@ function Details() {
     return <Loading />
   }
   return (
-    <VStack flex={1} bgColor="gray.800">
+    <VStack flex={1} bgColor="gray.900">
       <Header
         title={data.title}
         showBackButton
         showShareButton
+        onShare={handleCodeShare}
       />
       {
-        data._count?.participants > 0 ?
-          <VStack px={5} flex={1}>
-            <PoolHeader
-              _count={data._count}
-              owner={data.owner}
-              participants={data.participants}
-              title={data.title}
-              code={data.code}
-            />
-          </VStack>
+        data._count.participants < 0 ?
+          (
+            <VStack px={5} flex={1}>
+              <PoolHeader
+                _count={data._count}
+                owner={data.owner}
+                participants={data.participants}
+                title={data.title}
+                code={data.code}
+              />
+              <HStack bgColor="gray.800" p={1} rounded={1}>
+                <Option
+                  title="Seus palpites"
+                  isSelected={optionSelected === 'guesses'}
+                  onPress={() => setOptionSelected('guesses')}
+                />
+                <Option
+                  title="Ranking do grupo"
+                  onPress={() => setOptionSelected('ranking')}
+                  isSelected={optionSelected === 'ranking'}
+                />
+              </HStack>
+            </VStack>
+          )
           :
-          ''
+          (
+            <EmptyMyPoolList code={data.code} />
+          )
       }
+
     </VStack>
   );
 }

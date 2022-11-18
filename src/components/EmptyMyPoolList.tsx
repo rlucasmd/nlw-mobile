@@ -14,9 +14,9 @@ function EmptyMyPoolList({ code }: Props) {
       </Text>
 
       <Pressable
-        textDecoration="underline" textDecorationLine="underline" color="yellow.500" onPress={() => navigate('findPool')}
+        onPress={() => { }}
       >
-        <Text>
+        <Text textDecorationLine="underline" color="yellow.500" textDecoration="underline">
           compartilhar o código
         </Text>
       </Pressable>
