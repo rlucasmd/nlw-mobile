@@ -1,8 +1,10 @@
-import { Button, HStack, VStack, useTheme, Text } from 'native-base';
+import { Button, HStack, Text, useTheme, VStack } from 'native-base';
 import { X, Check } from 'phosphor-react-native';
-import { Team } from './Team';
 import { getName } from 'country-list';
 
+import { Team } from './Team';
+import dayjs from 'dayjs';
+import ptBR from 'dayjs/locale/pt-br';
 interface GuessProps {
   id: string;
   gameId: string;
@@ -10,22 +12,24 @@ interface GuessProps {
   participantId: string;
   firstTeamPoints: number;
   secondTeamPoints: number;
-};
+}
 
 export interface GameProps {
   id: string;
   firstTeamCountryCode: string;
   secondTeamCountryCode: string;
+  date: string;
   guess: null | GuessProps;
-}
+};
 
 interface Props {
   data: GameProps;
   onGuessConfirm: () => void;
   setFirstTeamPoints: (value: string) => void;
   setSecondTeamPoints: (value: string) => void;
-}
+};
 function Game({ data, setFirstTeamPoints, setSecondTeamPoints, onGuessConfirm }: Props) {
+  const when = dayjs(data.date).locale(ptBR).format('DD [de] MMMM [de] YYYY [às] HH:mm[h]');
   const { colors, sizes } = useTheme();
   return (
     <VStack
@@ -38,11 +42,11 @@ function Game({ data, setFirstTeamPoints, setSecondTeamPoints, onGuessConfirm }:
       mb={3}
       p={4}
     >
-      <Text color="gray.100">
-        {getName(data.firstTeamCountryCode)} Vs. {getName(data.secondTeamCountryCode)}
+      <Text color="gray.100" fontFamily="heading" fontSize="sm">
+        {getName(data.firstTeamCountryCode)} vs. {getName(data.secondTeamCountryCode)}
       </Text>
       <Text color="gray.200" fontSize="xs">
-        22 de Novembro de 2022 às 16:00h
+        {when}
       </Text>
 
       <HStack mt={4} w="full" justifyContent="space-between" alignItems="center">
@@ -76,5 +80,4 @@ function Game({ data, setFirstTeamPoints, setSecondTeamPoints, onGuessConfirm }:
     </VStack>
   );
 }
-
 export { Game };

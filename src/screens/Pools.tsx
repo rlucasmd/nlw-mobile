@@ -26,10 +26,10 @@ function Pools() {
     setIsLoading(true);
     try {
       const poolsResponse = await api.get<ResponseProps>('/pools');
-      console.log(poolsResponse.data.pools);
+      //console.log(poolsResponse.data.pools);
       setPools(poolsResponse.data.pools);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       toast.show({
         title: "Error ao carregar bolões",
         placement: "top",

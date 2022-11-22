@@ -22,7 +22,7 @@ function NewPool() {
     try {
       setIsLoading(true);
       const pool = await api.post('/pools', { title });
-      console.log(pool);
+      //console.log(pool);
       toast.show({
         title: 'Bolão criado com sucesso.',
         placement: 'top',

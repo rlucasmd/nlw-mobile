@@ -29,7 +29,7 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [isUserLoading, setIsUserLoading] = useState(false);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    clientId: '77761974061-n4312c208hnqomj43cikvngb93v9ee2p.apps.googleusercontent.com',
+    clientId: process.env.CLIENT_ID,
     redirectUri: AuthSession.makeRedirectUri({ useProxy: true }),
     scopes: ['email', 'profile']
   });
@@ -39,6 +39,7 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
       const response = await api.post('/users', { access_token });
       api.defaults.headers.common['Authorization'] = `Beares ${response.data.token}`
       const userInfoResponse = await api.get('/me');
+      //console.log(response.data);
       setUser(userInfoResponse.data.user);
     } catch (err) {
       console.log('error -> ', err);
